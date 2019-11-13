@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div id="intro">
+        <h1>ESMADIX</h1>
+        <!--FILTROS-->
+        <label for="txtName">Nome da Série:</label>
+        <input type="text" id="txtName" v-model.lazy="filter">
+        <label for="txtSeasson">Temporada:</label>
+        <input type="text" id="txtSeasson">
+        <button @click="compareTitle">A-Z</button>
+        <br>
+        <span v-if="this.series.length===0">SEM SÉRIES REGISTADAS</span>
+        <!--TABELA-->
+        <div v-else>
+        <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Título</th>
+                    <th scope="col">Nº da Temporada</th>
+                    <th scope="col">Nº de Episódios</th>
+                    <th scope="col">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="serie in filteredSeries">
+                    <th scope="row">{{serie.title}}</th>
+                    <td>{{serie.seasson}}</td>
+                    <td>{{serie.eps}}</td>
+                    <td>
+                        <button @click="editTitle(serie.id)">Editar</button>
+                        <button @click="removeSerie(serie.id)">Apagar</button>
+                        <button>Ver</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <br>
+        <button @click="openModal()">ADICIONAR</button>
+        <!--MODAL PARA ADICIONAR SÉRIE-->
+        <dialog id="dlgAdd">
+            <form v-on:submit.prevent="addSerie()">
+                    <h3>ADICIONAR SÉRIE</h3>
+                    <label for="txtTitle">Nome da Série</label>
+                    <input type="text" id="txtTitle" required v-model="title">
+                    <br>
+                    <label for="linkImage">Capa da série:</label>
+                    <input type="url" required v-model="thumb">
+                    <br>
+                    <label for="nSeasson">Número da Temporada</label>
+                    <input type="number" id="nSeasson" min="1" required v-model="seasson">
+                    <br>
+                    <label for="nEps">Número de Episódios</label>
+                    <input type="number" id="nEps" min="1" max="20" required v-model="eps">
+                    <br>
+                    <input type="submit" value="Adicionar">
+                    <button @click="closeModal()">FECHAR</button>
+            </form>
+        </dialog>
+    </div>
+    
+    <script src="./EX1.js"></script>
+</body>
+</html>
